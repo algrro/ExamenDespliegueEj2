@@ -1,0 +1,28 @@
+services:
+  db:
+    image: algrro/sqlconcesionario:v1
+    container_name: contenedorBBDD
+    environment:
+      MYSQL_ROOT_PASSWORD: contrasenyaRoot
+      MYSQL_DATABASE: cine
+      MYSQL_USER: algrro
+      MYSQL_PASSWORD: algrro
+    ports:
+      - "3307:3307"
+  php:
+    image: algrro/phpconcesionario:v1
+    container_name: contenedorApp
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: contenedorPhpMyAdmin
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: contrasenyaRoot
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
